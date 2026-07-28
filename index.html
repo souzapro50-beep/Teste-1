@@ -19,12 +19,26 @@
       --bg-card: #1e212b;
       --accent-copper: #ff7d55;
       --accent-violet: #a855f7;
+      --accent-gold: #fbbf24;
       --accent-gradient: linear-gradient(135deg, #ff7d55 0%, #a855f7 100%);
+      --vip-gradient: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
       --text-main: #f3f4f6;
       --text-muted: #9ca3af;
       --border-color: #2a2e3d;
       --danger: #ef4444;
       --success: #22c55e;
+      --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* TEMA VIP (Aplica quando o tema selecionado for VIP) */
+    body.theme-vip {
+      --bg-dark: #12100b;
+      --bg-surface: #1c1810;
+      --bg-card: #272115;
+      --accent-copper: #fbbf24;
+      --accent-violet: #f59e0b;
+      --accent-gradient: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+      --border-color: #3d331f;
     }
 
     * {
@@ -41,6 +55,7 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      transition: background-color 0.4s ease, color 0.4s ease;
     }
 
     /* Navbar */
@@ -52,6 +67,7 @@
       align-items: center;
       border-bottom: 1px solid var(--border-color);
       z-index: 10;
+      transition: background 0.4s ease, border-color 0.4s ease;
     }
 
     .brand {
@@ -81,12 +97,19 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.2s;
+      transition: var(--transition-smooth);
     }
 
     .btn-icon:hover {
       border-color: var(--accent-copper);
       color: var(--accent-copper);
+      transform: translateY(-1px);
+    }
+
+    .btn-vip-nav {
+      background: rgba(251, 191, 36, 0.1);
+      border: 1px solid var(--accent-gold);
+      color: var(--accent-gold);
     }
 
     /* Layout Principal */
@@ -109,6 +132,7 @@
       flex-direction: column;
       gap: 1.2rem;
       padding-right: 0.5rem;
+      scroll-behavior: smooth;
     }
 
     .welcome-screen {
@@ -117,6 +141,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      animation: fadeIn 0.6s ease;
     }
 
     .welcome-screen h1 {
@@ -127,7 +152,23 @@
       -webkit-text-fill-color: transparent;
     }
 
-    /* Atalhos Rápidos na Tela Inicial */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Escudo Secreto */
+    .secret-shield {
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-block;
+    }
+    .secret-shield:active {
+      transform: scale(0.92);
+    }
+
+    /* Atalhos Rápidos */
     .quick-tags {
       display: flex;
       gap: 0.5rem;
@@ -144,12 +185,13 @@
       border-radius: 20px;
       font-size: 0.8rem;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: var(--transition-smooth);
     }
 
     .tag-btn:hover {
       border-color: var(--accent-copper);
       color: #fff;
+      transform: translateY(-2px);
     }
 
     /* Mensagens */
@@ -158,6 +200,7 @@
       flex-direction: column;
       gap: 0.4rem;
       max-width: 88%;
+      animation: fadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .message-container.user { align-self: flex-end; }
@@ -174,7 +217,7 @@
     }
 
     .user .message-bubble {
-      background: #231f2e;
+      background: rgba(168, 85, 247, 0.1);
       border-color: rgba(168, 85, 247, 0.3);
     }
 
@@ -193,7 +236,7 @@
       display: flex;
       align-items: center;
       gap: 0.2rem;
-      transition: color 0.2s;
+      transition: var(--transition-smooth);
     }
 
     .msg-action-btn:hover { color: var(--accent-copper); }
@@ -214,9 +257,13 @@
       align-items: center;
       padding: 0.6rem 1rem;
       gap: 0.6rem;
+      transition: var(--transition-smooth);
     }
 
-    .chat-input-wrapper:focus-within { border-color: var(--accent-copper); }
+    .chat-input-wrapper:focus-within { 
+      border-color: var(--accent-copper);
+      box-shadow: 0 0 0 3px rgba(255, 125, 85, 0.1);
+    }
 
     .chat-input {
       flex: 1;
@@ -239,7 +286,7 @@
       border-left: 1px solid var(--border-color);
       box-shadow: -10px 0 30px rgba(0,0,0,0.6);
       z-index: 950;
-      transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
       flex-direction: column;
     }
@@ -260,6 +307,7 @@
       padding: 0.4rem;
       border-bottom: 1px solid var(--border-color);
       gap: 0.3rem;
+      overflow-x: auto;
     }
 
     .tab-btn {
@@ -268,15 +316,16 @@
       border: none;
       color: var(--text-muted);
       padding: 0.6rem 0.2rem;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 600;
       border-radius: 8px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.4rem;
-      transition: all 0.2s;
+      gap: 0.3rem;
+      white-space: nowrap;
+      transition: var(--transition-smooth);
     }
 
     .tab-btn.active {
@@ -292,10 +341,11 @@
       display: flex;
       flex-direction: column;
       gap: 1rem;
+      scroll-behavior: smooth;
     }
 
     .tab-content { display: none; }
-    .tab-content.active { display: flex; flex-direction: column; gap: 1rem; }
+    .tab-content.active { display: flex; flex-direction: column; gap: 1rem; animation: fadeIn 0.3s ease; }
 
     .custom-input, .custom-textarea {
       background: var(--bg-dark);
@@ -306,9 +356,81 @@
       outline: none;
       width: 100%;
       font-size: 0.9rem;
+      transition: var(--transition-smooth);
+    }
+
+    .custom-input:focus, .custom-textarea:focus {
+      border-color: var(--accent-copper);
     }
 
     .custom-textarea { resize: vertical; min-height: 80px; }
+
+    /* CUSTOM DROPDOWN (Substitui o Select nativo) */
+    .app-dropdown {
+      position: relative;
+      width: 100%;
+    }
+
+    .app-dropdown-btn {
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      padding: 0.8rem;
+      border-radius: 10px;
+      color: var(--text-main);
+      font-size: 0.9rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      width: 100%;
+      transition: var(--transition-smooth);
+    }
+
+    .app-dropdown-btn:hover {
+      border-color: var(--accent-copper);
+    }
+
+    .app-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 5px);
+      left: 0;
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 100;
+      display: none;
+      flex-direction: column;
+    }
+
+    .app-dropdown.open .app-dropdown-menu {
+      display: flex;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .app-dropdown-option {
+      padding: 0.8rem 1rem;
+      font-size: 0.88rem;
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition-smooth);
+    }
+
+    .app-dropdown-option:hover {
+      background: var(--bg-surface);
+      color: var(--accent-copper);
+    }
+
+    .app-dropdown-option.selected {
+      background: rgba(255, 125, 85, 0.15);
+      color: var(--accent-copper);
+      font-weight: 600;
+    }
 
     .custom-select-list {
       display: flex;
@@ -325,13 +447,17 @@
       display: flex;
       align-items: center;
       gap: 0.8rem;
-      transition: all 0.2s;
+      transition: var(--transition-smooth);
     }
 
-    .select-card:hover { border-color: var(--accent-copper); }
+    .select-card:hover { 
+      border-color: var(--accent-copper);
+      transform: translateY(-1px);
+    }
+
     .select-card.selected {
-      border-color: var(--accent-violet);
-      background: rgba(168, 85, 247, 0.08);
+      border-color: var(--accent-copper);
+      background: rgba(255, 125, 85, 0.1);
     }
 
     .select-card i { color: var(--accent-copper); }
@@ -339,11 +465,11 @@
     .select-card .title { font-size: 0.88rem; font-weight: 600; color: #fff; }
     .select-card .desc { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.1rem; }
 
-    /* Modais Genéricos */
+    /* Modais */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.85);
+      background: rgba(0, 0, 0, 0.8);
       backdrop-filter: blur(8px);
       display: flex;
       align-items: center;
@@ -352,7 +478,7 @@
       z-index: 1000;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .modal-overlay.active { opacity: 1; pointer-events: auto; }
@@ -365,6 +491,12 @@
       width: 100%;
       padding: 1.5rem;
       box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      transform: scale(0.95);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .modal-overlay.active .modal-card {
+      transform: scale(1);
     }
 
     .btn-primary {
@@ -376,12 +508,37 @@
       font-weight: 600;
       cursor: pointer;
       width: 100%;
-      transition: opacity 0.2s;
+      transition: var(--transition-smooth);
     }
 
-    .btn-primary:hover { opacity: 0.9; }
+    .btn-primary:hover { 
+      opacity: 0.95;
+      transform: translateY(-1px);
+    }
 
-    /* Estilização da Seção "Sobre" Escola */
+    .btn-whatsapp {
+      background: #25D366;
+      color: #fff;
+      border: none;
+      padding: 0.8rem 1rem;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: var(--transition-smooth);
+    }
+
+    .btn-whatsapp:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
     .about-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
@@ -410,7 +567,6 @@
       border-radius: 6px;
     }
 
-    /* Items do Histórico */
     .history-item {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
@@ -420,8 +576,12 @@
       justify-content: space-between;
       align-items: center;
       cursor: pointer;
+      transition: var(--transition-smooth);
     }
-    .history-item:hover { border-color: var(--accent-violet); }
+    .history-item:hover { 
+      border-color: var(--accent-copper);
+      transform: translateX(2px);
+    }
     .history-text { font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 230px; }
   </style>
 </head>
@@ -434,7 +594,10 @@
       <span>WebGuard AI</span>
     </div>
     <div class="header-actions">
-      <button class="btn-icon" onclick="openTutorialModal()" title="Tutorial / Guia de Uso">
+      <button class="btn-icon btn-vip-nav" onclick="openPixModal()" title="Área VIP / Pix">
+        <i data-lucide="crown"></i>
+      </button>
+      <button class="btn-icon" onclick="openTutorialModal()" title="Ajuda & Tutorial">
         <i data-lucide="help-circle"></i>
       </button>
       <button class="btn-icon" onclick="toggleSettingsDrawer(true)" title="Configurações">
@@ -450,11 +613,12 @@
   <main>
     <div class="chat-box" id="chatBox">
       <div class="welcome-screen" id="welcomeScreen">
-        <i data-lucide="shield-alert" style="width: 48px; height: 48px; color: var(--accent-copper); margin-bottom: 1rem;"></i>
+        <div class="secret-shield" id="secretShieldBtn" onclick="handleSecretShieldClick()" title="Verificador">
+          <i data-lucide="shield-alert" style="width: 48px; height: 48px; color: var(--accent-copper); margin-bottom: 1rem;"></i>
+        </div>
         <h1>Análise de Segurança Web</h1>
         <p style="color: var(--text-muted);">Cole o endereço de um site ou fórum para obter uma verificação completa.</p>
         
-        <!-- Atalhos Rápido para Apresentação -->
         <div class="quick-tags">
           <button class="tag-btn" onclick="quickCheck('Analisar fórum do Reddit')">🔍 Fórum Reddit</button>
           <button class="tag-btn" onclick="quickCheck('Verificar segurança do site steampowered.com')">🎮 Steam Store</button>
@@ -480,16 +644,82 @@
       <button class="btn-icon" onclick="toggleSettingsDrawer(false)"><i data-lucide="x"></i></button>
     </div>
     <div class="settings-tabs">
-      <button class="tab-btn active" onclick="switchTab(event, 'tab-api')"><i data-lucide="key" style="width:14px;"></i> API</button>
-      <button class="tab-btn" onclick="switchTab(event, 'tab-style')"><i data-lucide="message-square" style="width:14px;"></i> Estilo</button>
-      <button class="tab-btn" onclick="switchTab(event, 'tab-about')"><i data-lucide="info" style="width:14px;"></i> Sobre</button>
+      <button class="tab-btn active" onclick="switchTab(event, 'tab-api')"><i data-lucide="key" style="width:13px;"></i> API</button>
+      <button class="tab-btn" onclick="switchTab(event, 'tab-theme')"><i data-lucide="palette" style="width:13px;"></i> Tema</button>
+      <button class="tab-btn" onclick="switchTab(event, 'tab-style')"><i data-lucide="message-square" style="width:13px;"></i> Estilo</button>
+      <button class="tab-btn" onclick="switchTab(event, 'tab-about')"><i data-lucide="info" style="width:13px;"></i> Sobre</button>
     </div>
     <div class="drawer-body">
       <!-- Aba API -->
       <div class="tab-content active" id="tab-api">
-        <label style="font-size:0.85rem; color:var(--text-muted);">Chave de API do Gemini:</label>
-        <input type="password" id="settingApiKey" class="custom-input" placeholder="AIzaSy...">
-        <button class="btn-primary" onclick="saveSettings()">Salvar Chave</button>
+        <div id="vipNoticeBox" style="display:none; background:rgba(251, 191, 36, 0.1); border:1px solid var(--accent-gold); padding:0.8rem; border-radius:10px; font-size:0.8rem; color:var(--accent-gold); margin-bottom:0.5rem;">
+          👑 <strong>Modo VIP Ativo!</strong> Conectado à sua Super API de alta performance.
+        </div>
+
+        <label style="font-size:0.85rem; color:var(--text-muted); font-weight:600;">Selecione o Provedor de IA:</label>
+        
+        <!-- CUSTOM DROPDOWN DO PRÓPRIO APP -->
+        <div class="app-dropdown" id="providerDropdown">
+          <button type="button" class="app-dropdown-btn" onclick="toggleDropdown('providerDropdown')">
+            <span id="providerSelectedText">Google Gemini (Padrão)</span>
+            <i data-lucide="chevron-down" style="width:16px;"></i>
+          </button>
+          <div class="app-dropdown-menu">
+            <div class="app-dropdown-option selected" data-val="gemini" onclick="selectProviderOption('gemini', 'Google Gemini (Padrão)')">Google Gemini (Padrão)</div>
+            <div class="app-dropdown-option" data-val="openai" onclick="selectProviderOption('openai', 'OpenAI (ChatGPT)')">OpenAI (ChatGPT)</div>
+            <div class="app-dropdown-option" data-val="anthropic" onclick="selectProviderOption('anthropic', 'Anthropic (Claude)')">Anthropic (Claude)</div>
+            <div class="app-dropdown-option" data-val="deepseek" onclick="selectProviderOption('deepseek', 'DeepSeek AI')">DeepSeek AI</div>
+            <div class="app-dropdown-option" data-val="custom_url" onclick="selectProviderOption('custom_url', 'Outra IA (URL Customizada)')">Outra IA (URL Customizada)</div>
+          </div>
+        </div>
+
+        <label style="font-size:0.85rem; color:var(--text-muted); margin-top:0.6rem;" id="apiKeyLabel">Chave da API (Gemini):</label>
+        <input type="password" id="settingApiKey" class="custom-input" placeholder="Cole sua chave aqui..." style="margin-bottom: 0.5rem;">
+
+        <div id="customEndpointBox" style="display:none; margin-bottom: 0.5rem;">
+          <label style="font-size:0.8rem; color:var(--text-muted);">Endpoint / URL da API:</label>
+          <input type="text" id="settingApiEndpoint" class="custom-input" placeholder="https://api.provedor.com/v1/chat">
+        </div>
+
+        <button class="btn-primary" onclick="saveSettings()">Salvar Chave & Provedor</button>
+      </div>
+
+      <!-- Aba Tema / Aparência (RESTRITO PARA VIP) -->
+      <div class="tab-content" id="tab-theme">
+        <!-- Conteúdo para NÃO-VIP -->
+        <div id="themeNonVipBox" style="text-align: center; padding: 1.5rem 0.5rem;">
+          <i data-lucide="lock" style="width: 42px; height: 42px; color: var(--accent-gold); margin-bottom: 0.8rem;"></i>
+          <h4 style="color: #fff; font-size: 1.05rem; margin-bottom: 0.4rem;">Aba Exclusiva para VIPs</h4>
+          <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.2rem;">
+            A escolha de temas e personalização de interface está disponível apenas para membros do <strong>Plano VIP</strong>.
+          </p>
+          <button class="btn-primary" style="background: var(--vip-gradient); color: #000; font-weight: 700;" onclick="openPixModal()">
+            👑 Seja VIP por R$ 20,00
+          </button>
+        </div>
+
+        <!-- Conteúdo para USUÁRIOS VIP -->
+        <div id="themeVipContent" style="display: none; flex-direction: column; gap: 1rem;">
+          <label style="font-size:0.85rem; color:var(--text-muted); font-weight:600;">Selecione o Tema da Interface:</label>
+          
+          <div class="custom-select-list">
+            <div class="select-card" id="themeCardDefault" onclick="setAppTheme('default')">
+              <i data-lucide="moon"></i>
+              <div class="info">
+                <div class="title">Tema Padrão (Dark Copper)</div>
+                <div class="desc">Visual escuro moderno com detalhes em cobre e roxo.</div>
+              </div>
+            </div>
+
+            <div class="select-card" id="themeCardVip" onclick="setAppTheme('vip')">
+              <i data-lucide="crown"></i>
+              <div class="info">
+                <div class="title">Tema VIP (Gold Premium)</div>
+                <div class="desc">Visual exclusivo em tom de ouro e preto nobre.</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Aba Estilo -->
@@ -509,7 +739,7 @@
             <i data-lucide="eye"></i>
             <div class="info">
               <div class="title">Cético & Direto</div>
-              <div class="desc">Desconfia de tudo e vai direto ao ponto sem enrolação.</div>
+              <div class="desc">Desconfia de tudo e vai direto ao ponto.</div>
             </div>
           </div>
 
@@ -525,7 +755,7 @@
             <i data-lucide="book-open"></i>
             <div class="info">
               <div class="title">Formal & Técnico</div>
-              <div class="desc">Linguagem estritamente profissional e acadêmica.</div>
+              <div class="desc">Linguagem estritamente profissional.</div>
             </div>
           </div>
 
@@ -533,14 +763,14 @@
             <i data-lucide="edit-3"></i>
             <div class="info">
               <div class="title">Customizado</div>
-              <div class="desc">Defina suas próprias instruções abaixo.</div>
+              <div class="desc">Defina suas próprias instruções.</div>
             </div>
           </div>
         </div>
 
         <div id="customPromptContainer" style="display:none; margin-top:0.5rem;">
           <label style="font-size:0.8rem; color:var(--text-muted);">Instrução Personalizada:</label>
-          <textarea id="customPrompt" class="custom-textarea" placeholder="Ex: Escreva como um hacker ético..."></textarea>
+          <textarea id="customPrompt" class="custom-textarea" placeholder="Ex: Escreva como um especialista..."></textarea>
         </div>
 
         <button class="btn-primary" onclick="saveSettings()">Aplicar Estilo</button>
@@ -551,19 +781,17 @@
         <div class="about-card">
           <h4 style="color:var(--accent-copper); font-size:0.95rem;">📌 Sobre o Projeto</h4>
           <p style="font-size:0.82rem; color:var(--text-muted); line-height:1.5;">
-            Este aplicativo foi idealizado e encomendado pelo grupo de apresentação para o <strong>TCF do Professor Álvaro</strong>. Nossa missão foi transformar a ideia original da equipe em uma plataforma funcional e moderna de verificação de segurança web.
+            Aplicativo desenvolvido para o TCF do Professor Álvaro, focado em cibersegurança e análise web interativa.
           </p>
         </div>
 
         <div class="about-card">
-          <h4 style="color:var(--accent-violet); font-size:0.95rem; margin-bottom:0.4rem;">💻 Desenvolvedores do App</h4>
-          
+          <h4 style="color:var(--accent-violet); font-size:0.95rem; margin-bottom:0.4rem;">💻 Desenvolvedores</h4>
           <div class="about-dev">
             <i data-lucide="code-2" style="width:16px; color:var(--accent-copper);"></i>
             <span>José Armando</span>
             <span class="about-dev-badge">8º A</span>
           </div>
-
           <div class="about-dev" style="margin-top:0.3rem;">
             <i data-lucide="code-2" style="width:16px; color:var(--accent-copper);"></i>
             <span>Carlos Daniel</span>
@@ -572,12 +800,24 @@
         </div>
 
         <div class="about-card">
-          <h4 style="color:var(--text-main); font-size:0.9rem; display:flex; align-items:center; gap:0.4rem;">
-            <i data-lucide="cpu" style="width:14px; color:var(--accent-copper);"></i> Versão do Aplicativo
-          </h4>
-          <p style="font-size:0.8rem; color:var(--text-muted);">
-            <strong>WebGuard AI</strong> • v1.3.0 (Build Escolar TCF)<br>
-            Ambiente: Spck Editor / Mobile Web
+          <h4 style="color:var(--accent-gold); font-size:0.95rem; margin-bottom:0.4rem;">🔑 Como conseguir uma API do Gemini Gratuita</h4>
+          <p style="font-size:0.80rem; color:var(--text-muted); line-height:1.5; margin-bottom: 0.4rem;">
+            Siga o passo a passo abaixo para gerar sua chave gratuita no Google AI Studio:
+          </p>
+          <ol style="font-size:0.78rem; color:var(--text-muted); padding-left: 1.2rem; line-height: 1.5; display: flex; flex-direction: column; gap: 0.3rem;">
+            <li>Acesse o site oficial do <strong>Google AI Studio</strong> (ai.google.dev).</li>
+            <li>Faça login utilizando a sua conta Google pessoal ou institucional.</li>
+            <li>No painel principal, clique no botão superior ou lateral escrito <strong>"Get API key"</strong>.</li>
+            <li>Selecione o projeto do Google Cloud existente ou clique em <strong>"Create API key in new project"</strong>.</li>
+            <li>Copie a chave gerada (ela começa com "AIza...").</li>
+            <li>Volte aqui no WebGuard AI, abra as <strong>Configurações</strong>, selecione o provedor <strong>Google Gemini</strong> e cole a chave no campo correspondente!</li>
+          </ol>
+        </div>
+
+        <div class="about-card" style="border-color: rgba(251, 191, 36, 0.4);">
+          <h4 style="color:var(--accent-gold); font-size:0.95rem; margin-bottom:0.2rem;">👑 Super API (Plano VIP)</h4>
+          <p style="font-size:0.82rem; color:var(--text-muted); line-height:1.5;">
+            O preço da <strong>Super API</strong> é de <strong>20 reais no Pix</strong>. Realize o pagamento pelo botão da coroa na barra superior e envie o comprovante no WhatsApp para receber o seu acesso ilimitado.
           </p>
         </div>
       </div>
@@ -601,25 +841,210 @@
   <script>
     lucide.createIcons();
 
+    const PIX_PAYLOAD = "00020101021126580014br.gov.bcb.pix013672e58516-08dc-419a-8098-b1c23d5a5d925204000053039865802BR5918JOSE ARMANDO SOUZA6009SALGUEIRO62070503***630462A8";
+    const WHATSAPP_NUMERO = "5587988160742";
+
     let chatMemory = [];
     let historyData = JSON.parse(localStorage.getItem('webguard_history') || '[]');
     let currentChatId = null;
     let selectedPersona = localStorage.getItem('bot_persona') || 'skeptical';
+    let currentProvider = localStorage.getItem('ai_provider') || 'gemini';
+
+    let secretClicks = 0;
+    let secretTimer = null;
 
     window.onload = () => {
-      const savedKey = localStorage.getItem('gemini_api_key');
+      const savedKey = localStorage.getItem('gemini_api_key') || '';
+      const savedEndpoint = localStorage.getItem('ai_endpoint') || '';
       const hasSeenTutorial = localStorage.getItem('webguard_tutorial_seen');
 
-      // Se for a primeira vez, abre o tutorial automaticamente
+      checkVipStatus();
+
+      // Carregar e aplicar Tema salvo
+      const savedTheme = localStorage.getItem('webguard_theme') || (localStorage.getItem('webguard_vip_active') === 'true' ? 'vip' : 'default');
+      setAppTheme(savedTheme);
+
       if (!hasSeenTutorial) {
-        openTutorialModal(true);
+        openTutorialModal();
+        localStorage.setItem('webguard_tutorial_seen', 'true');
       }
 
-      document.getElementById('settingApiKey').value = savedKey || '';
+      document.getElementById('settingApiKey').value = savedKey;
+      document.getElementById('settingApiEndpoint').value = savedEndpoint;
+      
+      syncProviderDropdownUI(currentProvider);
+
       document.getElementById('customPrompt').value = localStorage.getItem('bot_custom_prompt') || '';
       selectPersonaCard(selectedPersona);
       renderHistory();
     };
+
+    // DROPDOWN CUSTOMIZADO
+    function toggleDropdown(id) {
+      const el = document.getElementById(id);
+      el.classList.toggle('open');
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.app-dropdown')) {
+        document.querySelectorAll('.app-dropdown').forEach(d => d.classList.remove('open'));
+      }
+    });
+
+    function selectProviderOption(val, labelText) {
+      currentProvider = val;
+      syncProviderDropdownUI(val, labelText);
+      document.getElementById('providerDropdown').classList.remove('open');
+      handleProviderChange();
+    }
+
+    function syncProviderDropdownUI(val, labelText = null) {
+      const labels = {
+        gemini: 'Google Gemini (Padrão)',
+        openai: 'OpenAI (ChatGPT)',
+        anthropic: 'Anthropic (Claude)',
+        deepseek: 'DeepSeek AI',
+        custom_url: 'Outra IA (URL Customizada)'
+      };
+
+      document.getElementById('providerSelectedText').innerText = labelText || labels[val] || labels.gemini;
+
+      document.querySelectorAll('#providerDropdown .app-dropdown-option').forEach(opt => {
+        opt.classList.toggle('selected', opt.getAttribute('data-val') === val);
+      });
+    }
+
+    function handleProviderChange() {
+      const label = document.getElementById('apiKeyLabel');
+      const endpointBox = document.getElementById('customEndpointBox');
+
+      endpointBox.style.display = (currentProvider === 'custom_url') ? 'block' : 'none';
+
+      if (currentProvider === 'openai') label.innerText = 'Chave da API (OpenAI / ChatGPT):';
+      else if (currentProvider === 'anthropic') label.innerText = 'Chave da API (Anthropic / Claude):';
+      else if (currentProvider === 'deepseek') label.innerText = 'Chave da API (DeepSeek):';
+      else if (currentProvider === 'custom_url') label.innerText = 'Chave / Token de Acesso:';
+      else label.innerText = 'Chave da API (Gemini):';
+    }
+
+    // TROCA DE TEMA DA INTERFACE
+    function setAppTheme(themeName) {
+      localStorage.setItem('webguard_theme', themeName);
+      if (themeName === 'vip') {
+        document.body.classList.add('theme-vip');
+        document.getElementById('themeCardVip')?.classList.add('selected');
+        document.getElementById('themeCardDefault')?.classList.remove('selected');
+      } else {
+        document.body.classList.remove('theme-vip');
+        document.getElementById('themeCardDefault')?.classList.add('selected');
+        document.getElementById('themeCardVip')?.classList.remove('selected');
+      }
+    }
+
+    // Gatilho secreto no escudo
+    function handleSecretShieldClick() {
+      secretClicks++;
+      clearTimeout(secretTimer);
+      secretTimer = setTimeout(() => { secretClicks = 0; }, 800);
+
+      if (secretClicks >= 30) {
+        secretClicks = 0;
+        const currentVip = localStorage.getItem('webguard_vip_active') === 'true';
+        const newStatus = !currentVip;
+        localStorage.setItem('webguard_vip_active', newStatus);
+        
+        if (newStatus) setAppTheme('vip');
+        else setAppTheme('default');
+
+        checkVipStatus();
+        alert(newStatus ? '🔓 Modo VIP Secreto ATIVADO! Tema VIP aplicado.' : '🔒 Modo VIP Desativado.');
+      }
+    }
+
+    function checkVipStatus() {
+      const isVip = localStorage.getItem('webguard_vip_active') === 'true';
+      const vipBox = document.getElementById('vipNoticeBox');
+      const themeNonVipBox = document.getElementById('themeNonVipBox');
+      const themeVipContent = document.getElementById('themeVipContent');
+
+      if (vipBox) vipBox.style.display = isVip ? 'block' : 'none';
+
+      // Controle da Aba Temas (Apenas VIP pode ver e escolher temas)
+      if (themeNonVipBox && themeVipContent) {
+        if (isVip) {
+          themeNonVipBox.style.display = 'none';
+          themeVipContent.style.display = 'flex';
+        } else {
+          themeNonVipBox.style.display = 'block';
+          themeVipContent.style.display = 'none';
+        }
+      }
+
+      return isVip;
+    }
+
+    function openPixModal() {
+      const modal = document.getElementById('modalContent');
+      const currentKey = localStorage.getItem('gemini_api_key') || '';
+      const isVip = localStorage.getItem('webguard_vip_active') === 'true';
+
+      modal.innerHTML = `
+        <div style="text-align: center;">
+          <i data-lucide="crown" style="width: 44px; height: 44px; color: var(--accent-gold); margin-bottom: 0.4rem;"></i>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.3rem; color: #fff;">Plano <span style="color: var(--accent-gold);">VIP WebGuard</span></h3>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.8rem;">
+            Valor: <strong>R$ 20,00</strong> no Pix.<br>
+            1. Copie a chave Pix abaixo e realize o pagamento.<br>
+            2. Envie o comprovante no WhatsApp para receber sua <strong>Super API</strong>.
+          </p>
+
+          <div style="background: var(--bg-card); padding: 0.8rem; border-radius: 12px; border: 1px solid var(--border-color); text-align: left; margin-bottom: 0.8rem;">
+            <label style="font-size: 0.75rem; color: var(--accent-gold); font-weight: 700; display: block; margin-bottom: 0.3rem;">CHAVE PIX (COPIA E COLA):</label>
+            <textarea readonly id="pixKeyArea" class="custom-textarea" style="font-size: 0.72rem; height: 50px; margin-bottom: 0.4rem; word-break: break-all;">${PIX_PAYLOAD}</textarea>
+            <button class="btn-primary" style="padding: 0.5rem; font-size: 0.8rem;" onclick="copyPixPayload()">📋 Copiar Código Pix</button>
+          </div>
+
+          <div style="margin-bottom: 0.8rem;">
+            <a href="https://wa.me/${WHATSAPP_NUMERO}?text=Olá!%20Fiz%20o%20Pix%20de%20R%2420%2C00%20para%20o%20WebGuard%20VIP%20e%20quero%20minha%20Super%20API." target="_blank" class="btn-whatsapp" style="padding: 0.7rem; font-size: 0.85rem;">
+              📲 Enviar Comprovante no WhatsApp
+            </a>
+          </div>
+
+          <div style="background: var(--bg-card); padding: 0.8rem; border-radius: 12px; border: 1px solid var(--border-color); text-align: left; margin-bottom: 0.8rem;">
+            <label style="font-size: 0.75rem; color: var(--accent-copper); font-weight: 700; display: block; margin-bottom: 0.3rem;">JÁ RECEBEU A SUPER API NO WHATSAPP?</label>
+            <input type="password" id="superApiKeyInput" class="custom-input" style="font-size: 0.85rem; padding: 0.6rem; margin-bottom: 0.4rem;" placeholder="Cole a Super API aqui..." value="${isVip ? currentKey : ''}">
+            <button class="btn-primary" style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); font-size: 0.82rem; padding: 0.6rem;" onclick="activateVipWithSuperKey()">🚀 Ativar Modo VIP</button>
+          </div>
+
+          <button class="btn-primary" style="background: transparent; border: none; color: var(--text-muted); font-size: 0.8rem;" onclick="closeModal()">Fechar</button>
+        </div>
+      `;
+      document.getElementById('appModal').classList.add('active');
+      lucide.createIcons();
+    }
+
+    function copyPixPayload() {
+      const area = document.getElementById('pixKeyArea');
+      area.select();
+      navigator.clipboard.writeText(area.value);
+      alert('Chave Pix copiada com sucesso!');
+    }
+
+    function activateVipWithSuperKey() {
+      const key = document.getElementById('superApiKeyInput').value.trim();
+      if (!key) {
+        alert('Por favor, cole a Super API enviada no WhatsApp.');
+        return;
+      }
+
+      localStorage.setItem('gemini_api_key', key);
+      localStorage.setItem('ai_provider', 'gemini');
+      localStorage.setItem('webguard_vip_active', 'true');
+      setAppTheme('vip');
+      checkVipStatus();
+      closeModal();
+      alert('🎉 Parabéns! Modo VIP ativado com sucesso e Tema VIP liberado!');
+    }
 
     function switchTab(event, tabId) {
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -631,7 +1056,7 @@
 
     function selectPersonaCard(val) {
       selectedPersona = val;
-      document.querySelectorAll('.select-card').forEach(card => {
+      document.querySelectorAll('#personaCards .select-card').forEach(card => {
         card.classList.toggle('selected', card.getAttribute('data-val') === val);
       });
 
@@ -640,65 +1065,65 @@
     }
 
     function getPersonaInstruction(type) {
-      if (type === 'sarcastic') return "Responda com muito sarcasmo, ironia e bom humor cômico, mas mantendo o diagnóstico de segurança da URL real e correto.";
-      if (type === 'skeptical') return "Seja altamente cético e desconfiado. Alerte sobre qualquer risco potencial de forma direta, sem rodeios.";
-      if (type === 'friendly') return "Responda de forma extremamente amigável, acolhedora e didática, como se ensinasse um amigo iniciante.";
-      if (type === 'academic') return "Use tom estritamente formal, acadêmico e técnico em cibersegurança.";
+      if (type === 'sarcastic') return "Responda com muito sarcasmo, ironia e bom humor cômico, mantendo o diagnóstico técnico da URL.";
+      if (type === 'skeptical') return "Seja altamente cético e desconfiado. Alerte sobre riscos potenciais de forma direta.";
+      if (type === 'friendly') return "Responda de forma extremamente amigável, acolhedora e didática.";
+      if (type === 'academic') return "Use tom estritamente formal, acadêmico e técnico.";
       return "";
     }
 
     function saveSettings() {
       const key = document.getElementById('settingApiKey').value.trim();
+      const endpoint = document.getElementById('settingApiEndpoint').value.trim();
       const customPrompt = document.getElementById('customPrompt').value.trim();
 
-      if (!key) { alert('Informe a chave de API.'); return; }
-
-      localStorage.setItem('gemini_api_key', key);
+      if (key) localStorage.setItem('gemini_api_key', key);
+      localStorage.setItem('ai_provider', currentProvider);
+      localStorage.setItem('ai_endpoint', endpoint);
       localStorage.setItem('bot_persona', selectedPersona);
       localStorage.setItem('bot_custom_prompt', customPrompt);
 
       toggleSettingsDrawer(false);
-      alert('Configurações salvas com sucesso!');
+      alert('Configurações salvas!');
     }
 
-    function toggleSettingsDrawer(open) { document.getElementById('settingsDrawer').classList.toggle('open', open); }
+    function toggleSettingsDrawer(open) { 
+      checkVipStatus();
+      document.getElementById('settingsDrawer').classList.toggle('open', open); 
+    }
     function toggleHistoryDrawer(open) { document.getElementById('historyDrawer').classList.toggle('open', open); }
     function closeModal() { document.getElementById('appModal').classList.remove('active'); }
 
-    // Tutorial do App (Aparece no 1º acesso e pelo botão ?)
-    function openTutorialModal(isFirstTime = false) {
+    function openTutorialModal() {
       const modal = document.getElementById('modalContent');
       modal.innerHTML = `
-        <h2 style="font-size:1.25rem; margin-bottom:0.8rem; color:var(--accent-copper); display:flex; align-items:center; gap:0.5rem;">
-          <i data-lucide="compass" style="width:20px; height:20px;"></i> Como usar o WebGuard AI
-        </h2>
+        <div style="text-align: center; margin-bottom: 0.8rem;">
+          <i data-lucide="shield-check" style="width: 40px; height: 40px; color: var(--accent-copper);"></i>
+          <h2 style="font-size: 1.2rem; margin-top: 0.3rem; color: #fff;">Bem-vindo ao WebGuard AI</h2>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">Guia rápido de utilização do aplicativo</p>
+        </div>
         
-        <div style="font-size:0.85rem; color:var(--text-muted); display:flex; flex-direction:column; gap:0.8rem; margin-bottom:1.2rem; line-height:1.5;">
-          <div style="background:var(--bg-card); padding:0.7rem 0.9rem; border-radius:10px; border:1px solid var(--border-color);">
-            <strong style="color:#fff;">🔍 Barra de Análise e Atalhos:</strong>
-            <p>Cole a URL de um site ou use as tags na tela inicial para fazer verificações rápidas de segurança.</p>
+        <div style="font-size: 0.83rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 1.2rem; line-height: 1.5;">
+          <div style="background: var(--bg-card); padding: 0.7rem; border-radius: 10px; border: 1px solid var(--border-color);">
+            <strong style="color: #fff;">🔍 1. Análise de URLs e Sites:</strong>
+            <p style="font-size: 0.78rem;">Cole qualquer link, URL ou nome de fórum na barra inferior para verificar se é seguro contra golpes e phishing.</p>
           </div>
 
-          <div style="background:var(--bg-card); padding:0.7rem 0.9rem; border-radius:10px; border:1px solid var(--border-color);">
-            <strong style="color:#fff;">⚙️ Configurações & Estilos:</strong>
-            <p>No ícone da engrenagem, insira sua Chave de API e escolha o tom da IA (Sarcástico, Cético, Amigável ou Técnico).</p>
+          <div style="background: var(--bg-card); padding: 0.7rem; border-radius: 10px; border: 1px solid var(--border-color);">
+            <strong style="color: #fff;">⚙️ 2. Chave de API & Tema:</strong>
+            <p style="font-size: 0.78rem;">Abra as Configurações (⚙️) para alterar o Tema da Interface (Recurso VIP) ou configurar sua chave de IA.</p>
           </div>
 
-          <div style="background:var(--bg-card); padding:0.7rem 0.9rem; border-radius:10px; border:1px solid var(--border-color);">
-            <strong style="color:#fff;">🕒 Histórico Completo:</strong>
-            <p>Acesse o ícone do relógio para retomar conversas antigas e revisar análises passadas.</p>
+          <div style="background: var(--bg-card); padding: 0.7rem; border-radius: 10px; border: 1px solid var(--border-color);">
+            <strong style="color: #fff;">👑 3. Área VIP / Super API:</strong>
+            <p style="font-size: 0.78rem;">Clique no ícone de coroa para adquirir a Super API por R$ 20,00 via Pix e ter acesso otimizado instantâneo.</p>
           </div>
         </div>
 
-        <button class="btn-primary" onclick="finishTutorial()">Entendido! Vamos lá</button>
+        <button class="btn-primary" onclick="closeModal()">Entendido, vamos lá!</button>
       `;
       document.getElementById('appModal').classList.add('active');
       lucide.createIcons();
-    }
-
-    function finishTutorial() {
-      localStorage.setItem('webguard_tutorial_seen', 'true');
-      closeModal();
     }
 
     function handleKeyPress(e) { if (e.key === 'Enter') sendAnalysis(); }
@@ -709,10 +1134,11 @@
     }
 
     async function sendAnalysis(customText = null, editMsgId = null) {
-      const apiKey = localStorage.getItem('gemini_api_key');
-      if (!apiKey) {
-        alert('Por favor, configure sua Chave de API na aba de Configurações (⚙️) antes de enviar.');
-        toggleSettingsDrawer(true);
+      const userKey = localStorage.getItem('gemini_api_key');
+
+      if (!userKey) {
+        alert('Por favor, insira sua chave de API nas Configurações ou ative o modo VIP.');
+        openPixModal();
         return;
       }
 
@@ -741,21 +1167,81 @@
         : getPersonaInstruction(selectedPersona);
 
       try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [
-              { role: "user", parts: [{ text: `Tom/Estilo de resposta: ${personaText}` }] },
-              ...chatMemory.map(m => ({ role: m.role, parts: m.parts }))
-            ]
-          })
-        });
+        let botRawText = "";
 
-        const data = await response.json();
-        if (data.error) throw new Error(data.error.message);
+        if (currentProvider === 'gemini') {
+          const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${userKey}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [
+                { role: "user", parts: [{ text: `Tom/Estilo de resposta: ${personaText}` }] },
+                ...chatMemory.map(m => ({ role: m.role, parts: m.parts }))
+              ]
+            })
+          });
+          const data = await response.json();
+          if (data.error) throw new Error(data.error.message);
+          botRawText = data.candidates[0].content.parts[0].text;
 
-        const botRawText = data.candidates[0].content.parts[0].text;
+        } else if (currentProvider === 'openai' || currentProvider === 'deepseek') {
+          const endpoint = currentProvider === 'deepseek' ? 'https://api.deepseek.com/v1/chat/completions' : 'https://api.openai.com/v1/chat/completions';
+          const modelName = currentProvider === 'deepseek' ? 'deepseek-chat' : 'gpt-4o-mini';
+
+          const messages = [
+            { role: "system", content: `Instrução de Estilo: ${personaText}` },
+            ...chatMemory.map(m => ({ role: m.role === 'model' ? 'assistant' : 'user', content: m.parts[0].text }))
+          ];
+
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${userKey}`
+            },
+            body: JSON.stringify({ model: modelName, messages: messages })
+          });
+          const data = await response.json();
+          if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
+          botRawText = data.choices[0].message.content;
+
+        } else if (currentProvider === 'anthropic') {
+          const messages = chatMemory.map(m => ({ role: m.role === 'model' ? 'assistant' : 'user', content: m.parts[0].text }));
+          const response = await fetch('https://api.anthropic.com/v1/messages', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-api-key': userKey,
+              'anthropic-version': '2023-06-01',
+              'anthropic-dangerous-direct-browser-access': 'true'
+            },
+            body: JSON.stringify({
+              model: 'claude-3-5-sonnet-20241022',
+              max_tokens: 1000,
+              system: `Instrução de Estilo: ${personaText}`,
+              messages: messages
+            })
+          });
+          const data = await response.json();
+          if (data.error) throw new Error(data.error.message);
+          botRawText = data.content[0].text;
+
+        } else if (currentProvider === 'custom_url') {
+          const customUrl = localStorage.getItem('ai_endpoint');
+          if (!customUrl) throw new Error("URL/Endpoint customizado não configurado.");
+
+          const response = await fetch(customUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${userKey}`
+            },
+            body: JSON.stringify({ prompt: query, system: personaText, history: chatMemory })
+          });
+          const data = await response.json();
+          botRawText = data.response || data.output || data.text || JSON.stringify(data);
+        }
+
         document.getElementById(loadingId).remove();
 
         const botMsgId = 'bot-' + Date.now();
@@ -765,7 +1251,7 @@
         saveCurrentChatToHistory();
 
       } catch (err) {
-        document.getElementById(loadingId).querySelector('.message-bubble').innerText = 'Erro: ' + err.message;
+        document.getElementById(loadingId).querySelector('.message-bubble').innerText = 'Erro na análise com o provedor selecionado: ' + err.message;
       }
     }
 
@@ -810,7 +1296,7 @@
     function copyText(encodedText) {
       const text = decodeURIComponent(encodedText);
       navigator.clipboard.writeText(text);
-      alert('Relatório copiado para a área de transferência!');
+      alert('Relatório copiado!');
     }
 
     function openEditModal(msgId, oldText) {
@@ -844,7 +1330,7 @@
     function saveCurrentChatToHistory() {
       if (chatMemory.length === 0) return;
       const firstUserMsg = chatMemory.find(m => m.role === 'user');
-      const title = firstUserMsg ? firstUserMsg.parts[0].text : 'Conversa sem título';
+      const title = firstUserMsg ? firstUserMsg.parts[0].text : 'Conversa';
 
       let existingIndex = historyData.findIndex(h => h.id === currentChatId);
       const chatItem = { id: currentChatId, title: title, memory: [...chatMemory] };
@@ -861,7 +1347,7 @@
       list.innerHTML = '';
 
       if (historyData.length === 0) {
-        list.innerHTML = '<p style="color:var(--text-muted); font-size:0.85rem; text-align:center;">Nenhum chat salvo.</p>';
+        list.innerHTML = '<p style="color:var(--text-muted); font-size:0.85rem; text-align:center;">Nenhum histórico.</p>';
         return;
       }
 
@@ -909,7 +1395,9 @@
         chatMemory = [];
         document.getElementById('chatBox').innerHTML = `
           <div class="welcome-screen" id="welcomeScreen">
-            <i data-lucide="shield-alert" style="width: 48px; height: 48px; color: var(--accent-copper); margin-bottom: 1rem;"></i>
+            <div class="secret-shield" id="secretShieldBtn" onclick="handleSecretShieldClick()">
+              <i data-lucide="shield-alert" style="width: 48px; height: 48px; color: var(--accent-copper); margin-bottom: 1rem;"></i>
+            </div>
             <h1>Análise de Segurança Web</h1>
             <p style="color: var(--text-muted);">Cole o endereço de um site ou fórum para obter uma verificação completa.</p>
           </div>
