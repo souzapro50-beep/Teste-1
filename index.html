@@ -843,6 +843,7 @@
 
     const PIX_PAYLOAD = "00020101021126580014br.gov.bcb.pix013672e58516-08dc-419a-8098-b1c23d5a5d925204000053039865802BR5918JOSE ARMANDO SOUZA6009SALGUEIRO62070503***630462A8";
     const WHATSAPP_NUMERO = "5587988160742";
+    const WHATSAPP_FORMATADO = "(87) 98816-0742";
 
     let chatMemory = [];
     let historyData = JSON.parse(localStorage.getItem('webguard_history') || '[]');
@@ -1008,6 +1009,11 @@
             <a href="https://wa.me/${WHATSAPP_NUMERO}?text=Olá!%20Fiz%20o%20Pix%20de%20R%2420%2C00%20para%20o%20WebGuard%20VIP%20e%20quero%20minha%20Super%20API." target="_blank" class="btn-whatsapp" style="padding: 0.7rem; font-size: 0.85rem;">
               📲 Enviar Comprovante no WhatsApp
             </a>
+            <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.5rem;">
+              Se o botão não abrir, chame no WhatsApp:<br>
+              <a href="tel:${WHATSAPP_NUMERO}" style="color: var(--accent-copper); font-weight: bold; text-decoration: underline;" onclick="copyPhoneToClipboard('${WHATSAPP_FORMATADO}')">${WHATSAPP_FORMATADO}</a> 
+              <span style="font-size: 0.7rem; color: var(--text-muted);">(clique para copiar)</span>
+            </p>
           </div>
 
           <div style="background: var(--bg-card); padding: 0.8rem; border-radius: 12px; border: 1px solid var(--border-color); text-align: left; margin-bottom: 0.8rem;">
@@ -1021,6 +1027,11 @@
       `;
       document.getElementById('appModal').classList.add('active');
       lucide.createIcons();
+    }
+
+    function copyPhoneToClipboard(phone) {
+      navigator.clipboard.writeText(phone);
+      alert('Número ' + phone + ' copiado para a área de transferência!');
     }
 
     function copyPixPayload() {
